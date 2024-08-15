@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='mypackage',
-    version='0.1',
+    name='PyOcclusion',
+    version='0.0.3',
     packages=find_packages(),
     install_requires=[
         'numpy',
@@ -12,7 +12,7 @@ setup(
     ],
     author='Bohdan Synytskyi',
     author_email='bodiasynytskiy@gmail.com',
-    description='A package for video editing with occlusion type of noise',
+    description='A package for video editing with occlusion noise',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/BohdanSynytskyi/PyOcclusion',
@@ -21,5 +21,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.9',
+    python_requires='>=3.6',
 )

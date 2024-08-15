@@ -4,8 +4,7 @@ import av
 from shapes import *
 from noise import Noise
 import traceback
-import matplotlib.pyplot as plt
-from PIL import Image
+
 
 class VideoEditor:
     def __init__(self, velocity_r, velocity_c, side_h, side_w, num,
@@ -140,12 +139,3 @@ class VideoEditor:
         for filename in os.listdir(directory):
             if filename.endswith(extension):
                 self.edit(os.path.join(directory, filename), "noisy_" + filename)
-
-    def showOcclusion(self, filename):
-        img = np.array(Image.open(filename))
-        newImg = np.copy(img)
-        newImg = self.noise.draw(newImg)
-        plt.subplot(121), plt.imshow(img), plt.axis("off")
-        plt.subplot(122), plt.imshow(newImg), plt.axis("off")
-        plt.show()
-

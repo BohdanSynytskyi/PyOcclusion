@@ -6,3 +6,12 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info
+dist/
+build/
+driver.py
