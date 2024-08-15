@@ -1,8 +1,8 @@
 import imageio
 import os
 import av
-from .shapes import *
-from .noise import Noise
+from PyOcclusion.src.shapes import *
+from PyOcclusion.src.noise import Noise
 import traceback
 import matplotlib.pyplot as plt
 from PIL import Image
