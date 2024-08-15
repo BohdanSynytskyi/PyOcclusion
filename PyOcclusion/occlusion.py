@@ -1,8 +1,8 @@
 import imageio
 import os
 import av
-from shapes import *
-from noise import Noise
+from .shapes import *
+from .noise import Noise
 import traceback
 import matplotlib.pyplot as plt
 from PIL import Image
@@ -141,10 +141,28 @@ class VideoEditor:
             if filename.endswith(extension):
                 self.edit(os.path.join(directory, filename), "noisy_" + filename)
 
-    def showOcclusion(self, filename):
+    def showOcclusion(self, filename, figsize=(12, 6)):
+        """
+           Displays a side-by-side comparison of the original image and the image with added noise.
+
+           Parameters:
+           -----------
+           filename : str
+               The path to the image file that will be displayed and processed.
+
+           figsize : tuple, optional
+               A tuple specifying the size of the figure (width, height) in inches.
+               Default is (12, 6).
+
+           Returns:
+           --------
+           None
+               This function displays the images and does not return any value.
+           """
         img = np.array(Image.open(filename))
         newImg = np.copy(img)
         newImg = self.noise.draw(newImg)
+        plt.figure(figsize=figsize)
         plt.subplot(121), plt.imshow(img), plt.axis("off")
         plt.subplot(122), plt.imshow(newImg), plt.axis("off")
         plt.show()
