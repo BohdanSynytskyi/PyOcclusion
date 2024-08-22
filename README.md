@@ -17,3 +17,14 @@ PyOcclusion can be installed from PyPI:
 Once installed, package can be loaded as:
 
 ```import PyOcclusion```
+
+# Example
+
+``` 
+import PyOcclusion
+
+editor = PyOcclusion.VideoEditor(20, 0, 17, 17, 500, height=1080, width=1920)
+
+editor.edit('video.mp4', "newVideo.mp4")
+```
+
