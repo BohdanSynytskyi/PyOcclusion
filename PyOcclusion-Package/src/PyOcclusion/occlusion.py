@@ -1,11 +1,13 @@
 import imageio
 import os
 import av
-from PyOcclusion.src.shapes import *
-from PyOcclusion.src.noise import Noise
+from .noise import Noise
+from .shapes import *
 import traceback
 import matplotlib.pyplot as plt
 from PIL import Image
+import numpy as np
+
 
 class VideoEditor:
     def __init__(self, velocity_r, velocity_c, side_h, side_w, num,
@@ -86,7 +88,7 @@ class VideoEditor:
             tempImgArray[rr, cc] = 1
         return np.sum(tempImgArray)
 
-    def edit(self, filename, noisyname, fps=30, codec='libx264', bitrate='4000k'):
+    def editVideo(self, filename, noisyname, fps=30, codec='libx264', bitrate='4000k'):
         """
         Edit a video by adding noise and shapes.
 
@@ -130,6 +132,23 @@ class VideoEditor:
             container.close()
             writer.close()
 
+    def editImage(self, filename, noisyname):
+
+        try:
+
+            frame = np.array(Image.open(filename))
+            frame = self.noise.draw(frame)
+
+            coveredPixels = self.calculateCoveredPixels()
+            print(f"Pixels covered: {coveredPixels}, coverage percent: "
+                  f"{coveredPixels / (self.height * self.width) * 100}%")
+            image = Image.fromarray(frame)
+            image.save(noisyname)
+
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            print(traceback.format_exc())
+
     def editAll(self, directory, extension):
         """
         Edit all videos in a directory by adding noise and shapes.
@@ -139,7 +158,7 @@ class VideoEditor:
         """
         for filename in os.listdir(directory):
             if filename.endswith(extension):
-                self.edit(os.path.join(directory, filename), "noisy_" + filename)
+                self.editVideo(os.path.join(directory, filename), "noisy_" + filename)
 
     def showOcclusion(self, filename, figsize=(12, 6)):
         """
@@ -166,85 +185,3 @@ class VideoEditor:
         plt.subplot(121), plt.imshow(img), plt.axis("off")
         plt.subplot(122), plt.imshow(newImg), plt.axis("off")
         plt.show()
-
-
-class ImageEditor:
-    def __init__(self, side_h, side_w, num,
-                 height=720, width=1280, noise_row=1, noise_col=1, shape='square', color=(0, 0, 0)):
-        self.height = height
-        self.width = width
-        self.vel_r = 0
-        self.vel_c = 0
-        self.side_h = side_h
-        self.side_w = side_w
-        self.num = num
-        self.noise_row = noise_row
-        self.noise_col = noise_col
-        self.color = color
-        self.shape = shape
-        self.shapes = self.placeShapes()
-
-        self.noise = Noise(height, width, 0, 0, color)
-        self.noise.append(self.shapes)
-
-    def placeShapes(self):
-        """
-        Place shapes on the video frame based on the equally spaced grid.
-
-        :return: List of placed shapes
-        """
-        num_on_x = int(np.sqrt(self.width * self.num / self.height))
-        num_on_y = self.num // num_on_x
-        col_gap = self.width / num_on_x
-        row_gap = self.height / num_on_y
-
-        shapesArr = []
-        if self.shape == 'square':
-            for col_i in range(num_on_x):
-                for row_i in range(num_on_y):
-                    shapesArr.append(Square(row_gap * row_i + row_gap / 2 * self.noise_row * np.random.rand(),
-                                            col_gap * col_i + col_gap / 2 * self.noise_col * np.random.rand(),
-                                            self.height, self.width, self.vel_r, self.vel_c,
-                                            self.side_h, self.side_w, self.color))
-        elif self.shape == 'drop':
-            for col_i in range(num_on_x):
-                for row_i in range(num_on_y):
-                    shapesArr.append(Drop(row_gap * row_i + row_gap / 2 * self.noise_row * np.random.rand(),
-                                          col_gap * col_i + col_gap / 2 * self.noise_col * np.random.rand(),
-                                          self.height, self.width, self.vel_r, self.vel_c,
-                                          self.side_h, self.side_w, self.color))
-
-        print(f"displayed number of shapes: {num_on_x * num_on_y}")
-
-        return shapesArr
-
-    def calculateCoveredPixels(self):
-        """
-        Calculate the number of pixels covered by the shapes.
-
-        :return: Total number of covered pixels
-        """
-        tempImgArray = np.zeros((self.height, self.width))
-        for square in self.shapes:
-            rr, cc = square.getPixelCoordinates()
-            rr = rr.astype(int)
-            cc = cc.astype(int)
-            tempImgArray[rr, cc] = 1
-        return np.sum(tempImgArray)
-
-    def edit(self, filename, noisyname):
-
-        try:
-
-            frame = np.array(Image.open(filename))
-            frame = self.noise.draw(frame)
-
-            coveredPixels = self.calculateCoveredPixels()
-            print(f"Pixels covered: {coveredPixels}, coverage percent: "
-                  f"{coveredPixels / (self.height * self.width) * 100}%")
-            image = Image.fromarray(frame)
-            image.save(noisyname)
-
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            print(traceback.format_exc())

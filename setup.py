@@ -1,14 +1,17 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='PyOcclusion',
-    version='0.0.5',
-    packages=find_packages(),
+    name='PyOcclusion-Package',
+    version='0.1.0',
+    packages=find_packages(where='PyOcclusion-Package/src'),
+    package_dir={'': 'PyOcclusion-Package/src'},
     install_requires=[
         'numpy',
         'scikit-image',
         'imageio',
         'av',
+        'Pillow>=10.0.1',
+        'matplotlib',
     ],
     author='Bohdan Synytskyi',
     author_email='bodiasynytskiy@gmail.com',
