@@ -28,11 +28,24 @@ Once installed, package can be loaded as:
 ``` 
 import PyOcclusion
 
-# instantiate new editor
+# instantiate an editor
 
-editor = PyOcclusion.VideoEditor(velocity_r=20, velocity_c=0, side_h=17, side_w=17, num=500, height=1080, width=1920)
+row_velocity = 20
+column_velocity = 0
+height_of_shape = 17
+width_of_shape = 17
+num = 500
+height_of_frame = 1080
+width_of_frame = 1920
+
+editor = PyOcclusion.VideoEditor(row_velocity, column_velocity, height_of_shape=17, width_of_shape, num, height_of_frame, width_of_frame)
 
 # generate new video
+
+path_to_file = "./video.mp4"
+
+path_to_new_file = "./newVideo.mp4"
+
 editor.editVideo('video.mp4', "newVideo.mp4")
 ```
 
