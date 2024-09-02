@@ -38,7 +38,7 @@ num = 500
 height_of_frame = 1080
 width_of_frame = 1920
 
-editor = PyOcclusion.VideoEditor(row_velocity, column_velocity, height_of_shape=17, width_of_shape, num, height_of_frame, width_of_frame)
+editor = PyOcclusion.VideoEditor(row_velocity, column_velocity, height_of_shape, width_of_shape, num, height_of_frame, width_of_frame)
 
 # generate new video
 
@@ -46,7 +46,7 @@ path_to_file = "./video.mp4"
 
 path_to_new_file = "./newVideo.mp4"
 
-editor.editVideo('video.mp4', "newVideo.mp4")
+editor.editVideo(path_to_file, path_to_new_file)
 ```
 
 # Documentation
