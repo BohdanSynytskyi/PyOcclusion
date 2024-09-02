@@ -53,6 +53,8 @@ editor.editVideo('video.mp4', "newVideo.mp4")
 
 General:
 
+[API](PyOcclusion-Package/docs/API.md)
+
 [Usage Examples](PyOcclusion-Package/examples/Example1.ipynb)
 
 # Citation

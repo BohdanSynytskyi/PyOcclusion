@@ -4,7 +4,7 @@ The functionality of the package revolvs around 3 files: shapes.py, noise.py, oc
 
 ## ```shapes``` module
 
-```Scikit-image``` library is used to perform image manipulation. There is an abstract parent class ```Shape```, which requires the following parameters: position(row and column), frame dimensions(height, width), velocity(with respect to row coordinate and to column coordinate), and color 
+```Scikit-image``` library is used to perform image manipulation. There is an abstract parent class ```Shape```, which requires the following parameters: position(```r``` and ```c```), frame resolution(```height```,     ```width```), velocity(```velocity_r```, ```velocuty_c```), and color 
 
 Two functions need to be implemented to create child class:
 * getPixelCoordinates(self)
